@@ -19,7 +19,7 @@ while(True):
     #subreddit = r.get_subreddit('bottest')
     #subreddit_comments = subreddit.get_comments()
     try:
-	    comments = r.get_comments('all')
+	    comments = r.get_comments('all', limit=100)
 	    for comment in comments:
 	        if comment.subreddit not in bans:
 	            try:

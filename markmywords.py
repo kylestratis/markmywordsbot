@@ -37,7 +37,6 @@ while(True):
 	                errmsg = e
 	                print("Rate limit exceeded, sleeping for {} minutes, {} seconds".format(int(errmsg.sleep_time / 60), int(errmsg.sleep_time % 60)))
 	                time.sleep(errmsg.sleep_time)
-	    time.sleep(2)
     except KeyboardInterrupt:
         print("UPTIME: %s seconds" %(time.time() - start_time))
         sys.exit()

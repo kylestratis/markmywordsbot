@@ -1,5 +1,6 @@
-import praw, time, re, json, sys
-r = praw.Reddit(user_agent='Mark My Words v1.0 by /u/AchillesDev')
+import praw, time, re, json, sys, OAuth2Util
+r = praw.Reddit(user_agent='Mark My Words v1.1 by /u/AchillesDev')
+o = OAuth2Util.OAuth2Util(r)
 
 replied = set()
 markString = """    Words:
@@ -12,10 +13,9 @@ bottiquette = r.get_wiki_page('Bottiquette', 'robots_txt_json')
 bansJson = json.loads(bottiquette.content_md)
 bans = bansJson['disallowed']
 
-r.login()
-
 start_time = time.time()
 while(True):
+    o.refresh()
     #subreddit = r.get_subreddit('bottest')
     #subreddit_comments = subreddit.get_comments()
     try:
@@ -33,7 +33,7 @@ while(True):
 	                    print(comment.body) #testing
 	                    comment.reply(unmarkString)
 	                    replied.add(comment.id)
-	            except praw.errors.RateLimitExceeded, e:
+	            except (praw.errors.RateLimitExceeded, e):
 	                errmsg = e
 	                print("Rate limit exceeded, sleeping for {} minutes, {} seconds".format(int(errmsg.sleep_time / 60), int(errmsg.sleep_time % 60)))
 	                time.sleep(errmsg.sleep_time)

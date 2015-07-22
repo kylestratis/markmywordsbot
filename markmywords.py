@@ -16,21 +16,22 @@ bans = bansJson['disallowed']
 start_time = time.time()
 while(True):
     o.refresh()
-    #subreddit = r.get_subreddit('bottest')
-    #subreddit_comments = subreddit.get_comments()
+    #subreddit = r.get_subreddit('bottesting')
+    #comments = subreddit.get_comments()
     try:
 	    comments = r.get_comments('all', limit=100)
 	    for comment in comments:
 	        if comment.subreddit not in bans:
+	            print("In if!")
 	            try:
 	                match = re.search(r'\bmark \D+ words?\b', comment.body, re.I)
 	                unMatch = re.search(r'\bunmark \D+ words?\b', comment.body, re.I)
 	                if match and comment.id not in replied:
-	                    print(comment.body) #testing
+	                    print(comment.body) #for testing
 	                    comment.reply(markString)
 	                    replied.add(comment.id)
 	                elif unMatch and comment.id not in replied:
-	                    print(comment.body) #testing
+	                    print(comment.body) #for testing
 	                    comment.reply(unmarkString)
 	                    replied.add(comment.id)
 	            except (praw.errors.RateLimitExceeded, e):
